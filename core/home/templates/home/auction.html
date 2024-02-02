@@ -73,14 +73,31 @@
               <h6 class="card-title">
                 <i class="fa-solid fa-indian-rupee-sign"></i> {{ data.auction.product.products_base_price }}
               </h6>
-              <h6 class="card-title">
-                <p>Start Time: {{ data.auction.start_time }}</p>
-                <p>End Time: {{ data.auction.end_time }}</p>
-                <p>{% if data.is_active %}
-                  <a href="#" class="btn btn-primary">Bid</a>
-                  {% else %}Auction Completed{% endif %}
-                </p>
-              </h6>
+              <div class="w-75">
+                <div class="fw-bold my-2 p-2" style="font-size: 12px; background: rgb(175, 248, 175);">
+                  Start Time:
+                  <div>
+                    {{ data.auction.start_time }}
+                  </div>
+                </div>
+                <div class="fw-bold my-2 p-2" style="font-size: 12px; background: rgb(245, 164, 164);">
+                  End Time:
+                  <div>
+                    {{ data.auction.end_time }}
+                  </div>
+                </div>
+              </div>
+              <p class="text-center">{% if data.is_active %}
+                <div>
+                  <a href="#" class="btn btn-primary w-100">Bid</a>
+                </div>
+                {% else %}
+                <div class="btn text-white text-center w-100" style="background-color: rgb(231, 96, 96);">
+                  <i class="fa-regular fa-circle-check"></i> &nbsp; Completed
+                </div>
+                
+                {% endif %}
+              </p>
             </div>
           </div>
         </div>
