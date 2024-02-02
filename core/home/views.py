@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import  logout as auth_logout
 from .forms import RegistrationForm
+from django.views.generic import ListView
 
 from .models import *
 
@@ -30,13 +31,33 @@ def about(request):
     about = {'page': 'About'}
     return render(request, "home/about.html", about) 
 
+# def auction(request):
+#     auctions = Auction.objects.all()
+#     template_name = 'home/auction.html'
+#     context = {'auctions': auctions}
+#     return render(request, template_name, context)
 def auction(request):
-    auction = {'page': 'Auction'}
-    product_data = Product.objects.all()
-    data = {
-            'product_data':product_data
-        }
-    return render(request, "home/auction.html", data) 
+    auctions = Auction.objects.all()
+
+    # Determine the active status for each auction
+    auction_data = []
+    for auction in auctions:
+        auction_data.append({
+            'auction': auction,
+            'is_active': auction.is_active(),
+        })
+
+    template_name = 'home/auction.html'
+    context = {'auction_data': auction_data}
+    return render(request, template_name, context)
+   
+#    Products Data Prototype
+    # auction = {'page': 'Auction'}
+    # product_data = Product.objects.all()
+    # data = {
+    #         'product_data':product_data
+    #     }
+    # return render(request, "home/auction.html", data) 
 
 def user(request):
     user = {'page': 'user'}
@@ -84,3 +105,14 @@ def my_logout(request):
     auth_logout(request)
     messages.success(request, "Successfully logged out.")
     return redirect('home')
+
+def auction_list_view(request):
+    auctions = Auction.objects.all()
+    template_name = 'home/auction_list.html'
+    context = {'auctions': auctions}
+    return render(request, template_name, context)
+
+# class AuctionListView(ListView):
+#     model = Auction
+#     template_name = 'home/auction_list.html'
+#     context_object_name = 'auctions'

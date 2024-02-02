@@ -32,6 +32,7 @@ urlpatterns = [
     path('register', register, name='register'),
     path('login', my_login_view, name='login'),
     path('logout', my_logout, name='logout'),
+    path('auction_list_view/', auction_list_view, name='auction_list_view'),
 ]
 
 if settings.DEBUG:

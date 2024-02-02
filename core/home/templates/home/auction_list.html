@@ -1,0 +1,53 @@
+<!-- combined_template.html -->
+{% extends 'base.html' %}
+
+{% block start %} {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/tiny-slider.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+
+  <div style="margin-top: 100px;">
+
+    <!-- Auction List Content with Card Styling -->
+    <h2>Auction List</h2>
+    {% if auctions %}
+    <div class="container-fluid">
+      <div class="row">
+        {% for auction in auctions %}
+        <div class="col-md-3 my-4">
+          <div class="card">
+            <img
+              src="../../media/{{ auction.product.product_image }}"
+              class="card-img-top"
+              style="height: 250px;"
+              alt="Product Image"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ auction.product.products_name }}</h5>
+              <p class="card-text">{{ auction.product.product_description }}</p>
+              <h6 class="card-title">
+                <i class="fa-solid fa-indian-rupee-sign"></i>  {{ auction.product.products_base_price }}
+              </h6>
+              <h6 class="card-title">
+                <p>Start Time: {{ auction.start_time }}</p>
+                <p>End Time: {{ auction.end_time }}</p>
+                <p>Active: {% if auction.active %}Yes{% else %}No{% endif %}</p>
+              </h6>
+              <a href="#" class="btn btn-primary">Bid</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <p>No auctions available.</p>
+    {% endif %}
+    <!-- End Auction List Content with Card Styling -->
+
+  </div>
+
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/tiny-slider.js' %}"></script>
+  <script src="{% static 'js/custom.js' %}"></script>
+{% endblock %}

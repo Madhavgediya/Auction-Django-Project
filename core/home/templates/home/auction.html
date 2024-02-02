@@ -18,7 +18,9 @@
   </div>
   <!-- End Hero Section -->
   <!-- Start Blog Section -->
-  <div class="blog-section">
+
+  <!-- Madhav Card Style here starts -->
+  <!-- <div class="blog-section">
     <div class="container-fluid">
       <div class="row">
         {% for data in product_data %}
@@ -47,7 +49,51 @@
         {% endfor %}
       </div>
     </div>
+  </div> -->
+  <!-- madhav card style ends here -->
+  <!-- new jenish card starts  -->
+
+
+
+  <div style="margin-top: 100px;">
+
+    <!-- Auction List Content with Card Styling -->
+
+    {% if auction_data %}
+    <div class="container-fluid">
+      <div class="row">
+        {% for data in auction_data %}
+        <div class="col-md-3 my-4">
+          <div class="card">
+            <img src="../../media/{{ data.auction.product.product_image }}" class="card-img-top" style="height: 250px;"
+              alt="Product Image" />
+            <div class="card-body">
+              <h5 class="card-title">{{ data.auction.product.products_name }}</h5>
+              <p class="card-text">{{ data.auction.product.product_description }}</p>
+              <h6 class="card-title">
+                <i class="fa-solid fa-indian-rupee-sign"></i> {{ data.auction.product.products_base_price }}
+              </h6>
+              <h6 class="card-title">
+                <p>Start Time: {{ data.auction.start_time }}</p>
+                <p>End Time: {{ data.auction.end_time }}</p>
+                <p>{% if data.is_active %}
+                  <a href="#" class="btn btn-primary">Bid</a>
+                  {% else %}Auction Completed{% endif %}
+                </p>
+              </h6>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <p>No auctions available.</p>
+    {% endif %}
+    <!-- End Auction List Content with Card Styling -->
+
   </div>
+  <!-- jenish card style ends here -->
   <!-- End Blog Section -->
 
   <script src="js/bootstrap.bundle.min.js"></script>
@@ -55,3 +101,4 @@
   <script src="js/custom.js"></script>
 </body>
 {% endblock %}
+
