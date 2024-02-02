@@ -43,3 +43,7 @@ class Auction(models.Model):
     def __str__(self):
         return self.product.products_name if self.product else "No Product"
     
+
+
+
+    
