@@ -1,4 +1,8 @@
+from django.utils import timezone
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -26,3 +30,15 @@ class CustomUser(models.Model):
     def __str__(self):
         return self.username
     
+class Auction(models.Model):
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def is_active(self):
+        now = timezone.now()
+        return self.start_time <= now <= self.end_time
+
+    def __str__(self):
+        return self.product.products_name if self.product else "No Product"
