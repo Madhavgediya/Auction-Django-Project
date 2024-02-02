@@ -16,3 +16,5 @@ class AuctionAdmin(admin.ModelAdmin):
         # Set created_by to the current admin user
         obj.created_by = request.user
         super().save_model(request, obj, form, change)
+
+        
