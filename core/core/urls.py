@@ -18,14 +18,16 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import path
 from core import settings
+from home.views import auction_detail
 from home.views import *
+
 
 urlpatterns = [
     path('', home, name="home" ),
     path('category/', category, name="category" ),
     path('contact/', contact, name="contact" ),
     path('about/', about, name="about" ),
-    path('auction/', auction, name="auction" ),
+    path('auctions/', auctions, name="auctions" ),
     path('user/', user, name="user" ),
     path('mj/', mj, name="mj" ),
     path('admin/', admin.site.urls),
@@ -33,7 +35,11 @@ urlpatterns = [
     path('login', my_login_view, name='login'),
     path('logout', my_logout, name='logout'),
     path('auction_list_view/', auction_list_view, name='auction_list_view'),
+    path('bid/<int:auction_id>/', bid, name='bid'),
+    path('auction/<int:auction_id>/', auction_detail, name='auction_detail'),
+
 ]
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

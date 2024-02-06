@@ -1,0 +1,25 @@
+<!-- auction_detail.html -->
+{% extends "base.html" %}
+{% block start %}
+  <h2>{{ auction.product.products_name }} Auction Details</h2>
+  <p>Start Time: {{ auction.start_time }}</p>
+  <p>End Time: {{ auction.end_time }}</p>
+
+  <h3>Bids:</h3>
+  {% if bids %}
+    <ul>
+      {% for bid in bids %}
+        <li>{{ bid.user.username }} - {{ bid.bid_amount }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No bids yet.</p>
+  {% endif %}
+
+  <h3>Place Bid:</h3>
+  <form method="post" action="{% url 'bid' auction_id=auction.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Place Bid</button>
+  </form>
+{% endblock %}

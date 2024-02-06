@@ -89,7 +89,9 @@
               </div>
               <p class="text-center">{% if data.is_active %}
                 <div>
-                  <a href="#" class="btn btn-primary w-100">Bid</a>
+                  <a href="{{ data.auction.get_absolute_url }}" class="btn btn-primary w-100">Bid</a>
+
+
                 </div>
                 {% else %}
                 <div class="btn text-white text-center w-100" style="background-color: rgb(231, 96, 96);">
