@@ -8,7 +8,7 @@
         {% for auction in auctions %}
           <div class="col-md-4 mb-4">
             <div class="card">
-              <img src="../../media/{{ auction.product.product_image }}" class="card-img-top" alt="{{ auction.product.products_name }} Image">
+              <img src="../../media/{{ auction.product.product_image }}" class="card-img-top" alt="{{ auction.product.products_name }} Image"  style="height: 300px;">
               <div class="card-body">
                 <h5 class="card-title">{{ auction.product.products_name }}</h5>
                 <p class="card-text">Start Time: {{ auction.start_time }}</p>
