@@ -19,3 +19,9 @@ class RegistrationForm(forms.ModelForm):
             raise ValidationError("Password and confirm password do not match.")
 
         return cleaned_data
+
+
+
+class BidForm(forms.Form):
+    bid_amount = forms.DecimalField(label='Bid Amount', max_digits=10, decimal_places=2)
+ 

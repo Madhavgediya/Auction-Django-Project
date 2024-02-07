@@ -65,7 +65,7 @@
         {% for data in auction_data %}
         <div class="col-md-3 my-4">
           <div class="card">
-            <img src="../../media/{{ data.auction.product.product_image }}" class="card-img-top" style="height: 250px;"
+            <img src="../../media/{{ data.auction.product.product_image }}" class="card-img-top img-fluid" style="height: 250px;"
               alt="Product Image" />
             <div class="card-body">
               <h5 class="card-title">{{ data.auction.product.products_name }}</h5>
@@ -87,16 +87,18 @@
                   </div>
                 </div>
               </div>
-              <p class="text-center">{% if data.is_active %}
-                <div>
-                  <a href="#" class="btn btn-primary w-100">Bid</a>
-                </div>
+              <p class="text-center">
+                {% if data.is_active %}
+                {% if not request.user.is_authenticated %}
+                <a href="/#loginModal" class="btn btn-primary w-100">Log in to Bid</a>
                 {% else %}
-                <div class="btn text-white text-center w-100" style="background-color: rgb(231, 96, 96);">
-                  <i class="fa-regular fa-circle-check"></i> &nbsp; Completed
-                </div>
-                
+                <a href="{{ data.auction.get_absolute_url }}" class="btn btn-primary w-100">Bid</a>
                 {% endif %}
+                {% else %}
+              <div class="btn text-white text-center w-100" style="background-color: rgb(231, 96, 96);">
+                <i class="fa-regular fa-circle-check"></i> &nbsp; Completed
+              </div>
+              {% endif %}
               </p>
             </div>
           </div>
@@ -118,4 +120,3 @@
   <script src="js/custom.js"></script>
 </body>
 {% endblock %}
-

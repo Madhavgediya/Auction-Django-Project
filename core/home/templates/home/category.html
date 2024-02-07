@@ -16,72 +16,17 @@
 <div class="product-section">
   <div class="container">
     <div class="row">
-      <!-- Start Column 2 -->
-      <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-        <a class="product-item" href="cart.html">
-          <img
-            src="{% static 'images/product-1.png' %}"
-            class="img-fluid product-thumbnail"
-          />
-          <h3 class="product-title">Nordic Chair</h3>
-          <strong class="product-price">$50.00</strong>
-
-          <span class="icon-cross">
-            <img src="{% static 'images/cross.svg' %}" class="img-fluid" />
-          </span>
-        </a>
+      {% for data in category_data%}
+      <div class="col-md-4 my-5 ">
+        <div class="card">
+          <img src="../../media/{{data.category_image}}" class="card-img-top" style="height: 300px" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title">{{data.category_name}}</h5>
+            <a href="{% url 'category_products' category_id=data.id %}" class="btn btn-primary">Explore More</a>
+          </div>
+        </div>
       </div>
-      <!-- End Column 2 -->
-
-      <!-- Start Column 2 -->
-      <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-        <a class="product-item" href="cart.html">
-          <img
-            src="{% static 'images/product-1.png' %}"
-            class="img-fluid product-thumbnail"
-          />
-          <h3 class="product-title">Nordic Chair</h3>
-          <strong class="product-price">$50.00</strong>
-
-          <span class="icon-cross">
-            <img src="{% static 'images/cross.svg' %}" class="img-fluid" />
-          </span>
-        </a>
-      </div>
-      <!-- End Column 2 -->
-
-      <!-- Start Column 2 -->
-      <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-        <a class="product-item" href="cart.html">
-          <img
-            src="{% static 'images/product-1.png' %}"
-            class="img-fluid product-thumbnail"
-          />
-          <h3 class="product-title">Nordic Chair</h3>
-          <strong class="product-price">$50.00</strong>
-
-          <span class="icon-cross">
-            <img src="{% static 'images/cross.svg' %}" class="img-fluid" />
-          </span>
-        </a>
-      </div>
-      <!-- End Column 2 -->
-      <!-- Start Column 2 -->
-      <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-        <a class="product-item" href="cart.html">
-          <img
-            src="{% static 'images/product-1.png' %}"
-            class="img-fluid product-thumbnail"
-          />
-          <h3 class="product-title">Nordic Chair</h3>
-          <strong class="product-price">$50.00</strong>
-
-          <span class="icon-cross">
-            <img src="{% static 'images/cross.svg' %}" class="img-fluid" />
-          </span>
-        </a>
-      </div>
-      <!-- End Column 2 -->
+      {% endfor %}
     </div>
   </div>
 </div>

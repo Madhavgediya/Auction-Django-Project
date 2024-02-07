@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render , get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import  logout as auth_logout
 from .forms import RegistrationForm
 from django.views.generic import ListView
+from .forms import *
 
 from .models import *
 
@@ -25,7 +26,14 @@ def contact(request):
 
 def category(request):
     context = {'page': 'category'}
-    return render(request, "home/category.html", context) 
+    category_data = Categorie.objects.all()
+    # product_data = product_data[:3]
+    # product_data = Product.objects[:3]
+    category_data = Categorie.objects.all()
+    data = {
+            'category_data':category_data,
+        }
+    return render(request, "home/category.html", data) 
 
 def about(request):
     about = {'page': 'About'}
@@ -36,7 +44,7 @@ def about(request):
 #     template_name = 'home/auction.html'
 #     context = {'auctions': auctions}
 #     return render(request, template_name, context)
-def auction(request):
+def auctions(request):
     auctions = Auction.objects.all()
 
     # Determine the active status for each auction
@@ -116,3 +124,50 @@ def auction_list_view(request):
 #     model = Auction
 #     template_name = 'home/auction_list.html'
 #     context_object_name = 'auctions'
+
+def bid(request, auction_id):
+    auction = get_object_or_404(Auction, pk=auction_id)
+
+    # Check if the user is authenticated
+    if not request.user.is_authenticated:
+        # Redirect the user to the login page or display an authentication message
+        # Customize this based on your project's requirements
+        return redirect('/#loginModal')  # Adjust 'login' to the actual login URL in your project
+
+    if request.method == 'POST':
+        form = BidForm(request.POST)
+        if form.is_valid():
+            bid_amount = form.cleaned_data['bid_amount']
+
+            # Check bid constraints (first bid > base price, subsequent bids > previous bid amount)
+            if auction.bids.exists():
+                previous_bid = auction.bids.latest('bid_time')
+                if bid_amount <= previous_bid.bid_amount:
+                    form.add_error('bid_amount', 'Bid must be greater than the previous bid.')
+                    return render(request, 'home/bid.html', {'form': form, 'auction': auction})
+
+            # Create the bid
+            user = request.user
+            Bid.objects.create(auction=auction, user=user, bid_amount=bid_amount)
+            # return redirect('auction_detail', auction_id=auction.id)
+            return redirect('auction_detail', auction_id=auction.id)
+
+    else:
+        form = BidForm()
+
+    return render(request, 'home/bid.html', {'form': form, 'auction': auction})
+
+def auction_detail(request, auction_id):
+    auction = get_object_or_404(Auction, pk=auction_id)
+
+    # Get bids for the auction
+    bids = auction.bids.all()
+
+    context = {'auction': auction, 'bids': bids}
+    return render(request, 'home/auction_detail.html', context)
+
+def category_products(request, category_id):
+    category = get_object_or_404(Categorie, pk=category_id)
+    products_in_category = category.product_set.all()
+    auctions = Auction.objects.filter(product__in=products_in_category)
+    return render(request, 'home/category_products.html', {'category': category, 'auctions': auctions})

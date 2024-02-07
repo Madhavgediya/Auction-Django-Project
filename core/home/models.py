@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.utils import timezone
 from django.db import models
 from django.db.models.signals import pre_save
@@ -8,6 +9,7 @@ from django.contrib.auth.models import User
 
 class Categorie(models.Model):
     category_name = models.CharField(max_length=255, unique=True)
+    category_image = models.ImageField(upload_to='', null=True, blank=True)  # Add this line for the image field
     def __str__(self):
         return self.category_name
 
@@ -42,6 +44,19 @@ class Auction(models.Model):
 
     def __str__(self):
         return self.product.products_name if self.product else "No Product"
+    
+    def get_absolute_url(self):
+        return reverse('auction_detail', args=[str(self.id)])
+
+class Bid(models.Model):
+    auction = models.ForeignKey('Auction', on_delete=models.CASCADE, related_name='bids')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    bid_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    bid_time = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.bid_amount}"
+
     
 
 
