@@ -65,7 +65,7 @@
         {% for data in auction_data %}
         <div class="col-md-3 my-4">
           <div class="card">
-            <img src="../../media/{{ data.auction.product.product_image }}" class="card-img-top img-fluid" style="height: 250px;"
+            <img src="../../media/{{ data.auction.product.product_image }}" class="card-img-top" style="height: 300px;"
               alt="Product Image" />
             <div class="card-body">
               <h5 class="card-title">{{ data.auction.product.products_name }}</h5>
@@ -73,18 +73,14 @@
               <h6 class="card-title">
                 <i class="fa-solid fa-indian-rupee-sign"></i> {{ data.auction.product.products_base_price }}
               </h6>
-              <div class="w-75">
+              <div class="">
                 <div class="fw-bold my-2 p-2" style="font-size: 12px; background: rgb(175, 248, 175);">
-                  Start Time:
-                  <div>
+                  Start: &nbsp;
                     {{ data.auction.start_time }}
-                  </div>
                 </div>
                 <div class="fw-bold my-2 p-2" style="font-size: 12px; background: rgb(245, 164, 164);">
-                  End Time:
-                  <div>
+                  End: &nbsp;
                     {{ data.auction.end_time }}
-                  </div>
                 </div>
               </div>
               <p class="text-center">
