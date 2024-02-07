@@ -24,3 +24,4 @@ class RegistrationForm(forms.ModelForm):
 
 class BidForm(forms.Form):
     bid_amount = forms.DecimalField(label='Bid Amount', max_digits=10, decimal_places=2)
+ 

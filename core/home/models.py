@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 
 class Categorie(models.Model):
     category_name = models.CharField(max_length=255, unique=True)
+    category_image = models.ImageField(upload_to='', null=True, blank=True)  # Add this line for the image field
     def __str__(self):
         return self.category_name
 

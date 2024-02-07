@@ -26,7 +26,14 @@ def contact(request):
 
 def category(request):
     context = {'page': 'category'}
-    return render(request, "home/category.html", context) 
+    category_data = Categorie.objects.all()
+    # product_data = product_data[:3]
+    # product_data = Product.objects[:3]
+    category_data = Categorie.objects.all()
+    data = {
+            'category_data':category_data,
+        }
+    return render(request, "home/category.html", data) 
 
 def about(request):
     about = {'page': 'About'}
