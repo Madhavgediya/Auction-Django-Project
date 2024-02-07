@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block start %}
+  <div class="container mt-5">
+    <h2 class="mb-4">{{ category.category_name }} - Auctions</h2>
+
+    {% if auctions %}
+      <div class="row">
+        {% for auction in auctions %}
+          <div class="col-md-4 mb-4">
+            <div class="card">
+              <img src="../../media/{{ auction.product.product_image }}" class="card-img-top" alt="{{ auction.product.products_name }} Image">
+              <div class="card-body">
+                <h5 class="card-title">{{ auction.product.products_name }}</h5>
+                <p class="card-text">Start Time: {{ auction.start_time }}</p>
+                <p class="card-text">End Time: {{ auction.end_time }}</p>
+                <!-- Add other auction details as needed -->
+
+                <a href="{{ auction.get_absolute_url }}" class="btn btn-primary">Bid Now</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No auctions in this category.</p>
+    {% endif %}
+  </div>
+{% endblock %}

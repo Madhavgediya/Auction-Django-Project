@@ -132,7 +132,7 @@ def bid(request, auction_id):
     if not request.user.is_authenticated:
         # Redirect the user to the login page or display an authentication message
         # Customize this based on your project's requirements
-        return redirect('login')  # Adjust 'login' to the actual login URL in your project
+        return redirect('/#loginModal')  # Adjust 'login' to the actual login URL in your project
 
     if request.method == 'POST':
         form = BidForm(request.POST)
@@ -165,3 +165,9 @@ def auction_detail(request, auction_id):
 
     context = {'auction': auction, 'bids': bids}
     return render(request, 'home/auction_detail.html', context)
+
+def category_products(request, category_id):
+    category = get_object_or_404(Categorie, pk=category_id)
+    products_in_category = category.product_set.all()
+    auctions = Auction.objects.filter(product__in=products_in_category)
+    return render(request, 'home/category_products.html', {'category': category, 'auctions': auctions})

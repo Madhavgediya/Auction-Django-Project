@@ -17,12 +17,12 @@
   <div class="container">
     <div class="row">
       {% for data in category_data%}
-      <div class="col-md-4 my-5">
+      <div class="col-md-4 my-5 ">
         <div class="card">
           <img src="../../media/{{data.category_image}}" class="card-img-top" style="height: 300px" alt="..." />
           <div class="card-body">
             <h5 class="card-title">{{data.category_name}}</h5>
-            <a href="#" class="btn btn-primary">Explore More</a>
+            <a href="{% url 'category_products' category_id=data.id %}" class="btn btn-primary">Explore More</a>
           </div>
         </div>
       </div>
