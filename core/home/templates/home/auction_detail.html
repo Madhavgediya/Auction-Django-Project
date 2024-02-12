@@ -53,7 +53,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for bid in bids %}
+            {% for bid in bids reversed %}
             <tr>
               <td>{{ bid.user.username }}</td>
               <td>{{ bid.bid_amount }}</td>
@@ -65,7 +65,7 @@
       {% else %}
       <p>No bids yet.</p>
       {% endif %}
-    </div>
+      </div>
   </div>
 </div>
 {% endblock %}

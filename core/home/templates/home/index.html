@@ -17,75 +17,67 @@
   <!-- Start Product Section -->
   <div class="product-section">
     <div class="container">
-      <div>
-        <h2 class="section-title">Live Auction</h2>
-      </div>
-      <div class="row">
-        {% for data in product_data%}
-        <div class="col-md-4">
-          <div class="card">
-            <img
-              src="../../media/{{data.product_image}}"
-              class="card-img-top"
-              style="height: 300px"
-              alt="..."
-            />
-            <div class="card-body">
-              <h5 class="card-title">{{data.products_name}}</h5>
-              <h6 class="card-title">
-                <i class="fa-solid fa-indian-rupee-sign"></i>
-                {{data.products_base_price}}
-              </h6>
-              <p class="card-text">
-                {{data.product_description|truncatechars:70}}..
-                <a href="#" class="readmore">Read More</a>
-              </p>
-
-              <a href="#" class="btn btn-primary">Bid</a>
-            </div>
-          </div>
+        <div>
+            <h2 class="section-title">Live Auction</h2>
         </div>
-        {% endfor %}
-      </div>
+        <!-- Display the last four active auctions -->
+        <div class="row">
+            {% for auction in active_auctions %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="../../media/{{ auction.product.product_image }}"
+                         class="card-img-top"
+                         style="height: 300px"
+                         alt="..."
+                    />
+                    <div class="card-body">
+                        <h5 class="card-title">{{ auction.product.products_name }}</h5>
+                        <h6 class="card-title">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                            {{ auction.product.products_base_price }}
+                        </h6>
+                        <p class="card-text">
+                            {{ auction.product.product_description|truncatechars:70 }}..
+                            <a href="{{ auction.get_absolute_url }}" class="readmore">Read More</a>
+                        </p>
+
+                        <a href="{{ auction.get_absolute_url }}" class="btn btn-primary">Bid Now</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- End displaying active auctions -->
     </div>
-  </div>
+</div>
+
   <!-- End Product Section -->
 
   <!-- Start Product Section -->
   <div class="product-section">
     <div class="container">
-      <div>
-        <h2 class="section-title">Up Coming Auction</h2>
-      </div>
-      <div class="row">
-        {% for data in product_data%}
-        <div class="col-md-4">
-          <div class="card">
-            <img
-              src="../../media/{{data.product_image}}"
-              class="card-img-top"
-              style="height: 300px"
-              alt="..."
-            />
-            <div class="card-body">
-              <h5 class="card-title">{{data.products_name}}</h5>
-              <h6 class="card-title">
-                <i class="fa-solid fa-indian-rupee-sign"></i>
-                {{data.products_base_price}}
-              </h6>
-              <p class="card-text">
-                {{data.product_description|truncatechars:70}}..
-                <a href="#" class="readmore">Read More</a>
-              </p>
-
-              <a href="#" class="btn btn-primary">Bid</a>
-            </div>
-          </div>
+        <div>
+            <h2 class="section-title">Recent Completed Auctions </h2>
         </div>
-        {% endfor %}
-      </div>
+        <div class="row">
+            {% for auction in completed_auctions %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="../../media/{{ auction.product.product_image }}" class="card-img-top" style="height: 300px" alt="..." />
+                        <div class="card-body">
+                            <h5 class="card-title">{{ auction.product.products_name }}</h5>
+                            <h6 class="card-title">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                {{ auction.product.products_base_price }}
+                            </h6>
+                            <!-- Add other auction details as needed -->
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-  </div>
+</div>
   <!-- End Product Section -->
   <!-- Start Product Section -->
   <div class="product-section">

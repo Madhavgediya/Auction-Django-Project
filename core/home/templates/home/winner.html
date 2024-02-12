@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block start %}
+  <div class="container mt-5">
+    <h2 class="mb-4">Auction Winner</h2>
+
+    {% if winner %}
+      <p>The winner of the auction is: {{ winner.user.username }}</p>
+      <p>Winning Bid Amount: {{ winner.bid_amount }}</p>
+      <!-- Add other winner details if needed -->
+    {% else %}
+      <p>No winner declared yet.</p>
+    {% endif %}
+  </div>
+{% endblock %}
