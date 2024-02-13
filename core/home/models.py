@@ -56,6 +56,8 @@ class Bid(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.bid_amount}"
+    
+
 
     
 

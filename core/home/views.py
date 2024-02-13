@@ -7,18 +7,28 @@ from django.contrib.auth import  logout as auth_logout
 from .forms import RegistrationForm
 from django.views.generic import ListView
 from .forms import *
-
 from .models import *
 
 def home(request):
+    # Fetch all products
     product_data = Product.objects.all()
-    # product_data = product_data[:3]
-    # product_data = Product.objects[:3]
-    product_data = Product.objects.order_by('-id')[:3]
+
+    # Fetch all auctions
+    all_auctions = Auction.objects.all()
+
+    # Filter the last three active auctions
+    active_auctions = [auction for auction in reversed(all_auctions) if auction.is_active()][:3]
+
+    # Filter the recent completed auctions
+    completed_auctions = [auction for auction in reversed(all_auctions) if not auction.is_active()]
+
     data = {
-            'product_data':product_data,
-        }
-    return render(request, "home/index.html", data) 
+        'product_data': product_data,
+        'active_auctions': active_auctions,
+        'completed_auctions': completed_auctions,
+    }
+
+    return render(request, "home/index.html", data)
 
 def contact(request):
     context = {'page': 'Contact'}
@@ -139,17 +149,22 @@ def bid(request, auction_id):
         if form.is_valid():
             bid_amount = form.cleaned_data['bid_amount']
 
-            # Check bid constraints (first bid > base price, subsequent bids > previous bid amount)
+            # Check bid constraints
             if auction.bids.exists():
                 previous_bid = auction.bids.latest('bid_time')
                 if bid_amount <= previous_bid.bid_amount:
-                    form.add_error('bid_amount', 'Bid must be greater than the previous bid.')
+                    min_bid_amount = previous_bid.bid_amount + 1
+                    form.add_error('bid_amount', f'Bid must be higher than {min_bid_amount}.')
+                    return render(request, 'home/bid.html', {'form': form, 'auction': auction})
+            else:
+                # For the first bid, check if bid_amount is greater than the base price
+                if bid_amount <= auction.product.products_base_price:
+                    form.add_error('bid_amount', f'Bid must be higher than the base price ({auction.product.products_base_price}).')
                     return render(request, 'home/bid.html', {'form': form, 'auction': auction})
 
             # Create the bid
             user = request.user
             Bid.objects.create(auction=auction, user=user, bid_amount=bid_amount)
-            # return redirect('auction_detail', auction_id=auction.id)
             return redirect('auction_detail', auction_id=auction.id)
 
     else:
