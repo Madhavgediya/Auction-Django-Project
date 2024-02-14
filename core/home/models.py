@@ -47,6 +47,9 @@ class Auction(models.Model):
     
     def get_absolute_url(self):
         return reverse('auction_detail', args=[str(self.id)])
+    
+    def has_ended(self):
+        return timezone.now() > self.end_time
 
 class Bid(models.Model):
     auction = models.ForeignKey('Auction', on_delete=models.CASCADE, related_name='bids')
@@ -57,8 +60,16 @@ class Bid(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.bid_amount}"
     
+class Winner(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    bid_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.user.username} - {self.auction.product.products_name}'
 
+    def get_absolute_url(self):
+        return reverse('winner', args=[str(self.auction.id)])
     
 
 

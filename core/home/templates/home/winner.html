@@ -1,15 +1,20 @@
 {% extends "base.html" %}
-{% block start %}
-  <div class="container mt-5">
-    <h2 class="mb-4">Auction Winner</h2>
+{% block content %}
 
+
+    <h1>Winner for {{ auction.product.products_name }}</h1>
     {% if winner %}
-      <p>The winner of the auction is: {{ winner.user.username }}</p>
-      <p>Winning Bid Amount: {{ winner.bid_amount }}</p>
-      <!-- Add other winner details if needed -->
-    {% else %}
-      <p>No winner declared yet.</p>
+        <p>Winner: {{ winner.user.username }}</p>
+        <p>Winning Bid Amount: {{ winner.bid_amount }}</p>
+
+        {% else %}
+        <p>No winner yet.</p>
     {% endif %}
+<<<<<<< HEAD
+
+    {% endblock %}
+=======
   </div>
 {% endblock %}
 
+>>>>>>> 2e84063f9e29f5f3d769b324e389b69f4cdb77b2
