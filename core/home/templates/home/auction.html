@@ -87,9 +87,15 @@
                             {% endif %}
                             {% else %}
                             <div class="btn text-white text-center w-100" style="background-color: rgb(231, 96, 96);">
-                                <i class="fa-regular fa-circle-check"></i> &nbsp; Completed
-                            </div>
-                            {% endif %}
+                                  {% if data.auction.has_ended %}
+                                    <a href="{% url 'winner' auction_id=data.auction.id %}"> <!-- Redirect to winner page -->
+                                  <i class="fa-regular fa-circle-check"></i> &nbsp; Completed
+                                  </a>
+                               {% else %}
+                               <i class="fa-regular fa-circle-check"></i> &nbsp; Error
+                                 {% endif %}
+                               </div>
+                                {% endif %}
                         </p>
                     </div>
                 </div>
