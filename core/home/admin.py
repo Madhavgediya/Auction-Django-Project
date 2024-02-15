@@ -6,6 +6,7 @@ from .models import *
 
 admin.site.register(Categorie)
 admin.site.register(Product)
+admin.site.register(Winner)
 
 @admin.register(Auction)
 class AuctionAdmin(admin.ModelAdmin):

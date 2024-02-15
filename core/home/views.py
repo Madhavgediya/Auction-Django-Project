@@ -36,7 +36,7 @@ def contact(request):
 
 def category(request):
     context = {'page': 'category'}
-    category_data = Categorie.objects.all()
+    # category_data = Categorie.objects.all()
     # product_data = product_data[:3]
     # product_data = Product.objects[:3]
     category_data = Categorie.objects.all()
@@ -163,8 +163,8 @@ def bid(request, auction_id):
                     return render(request, 'home/bid.html', {'form': form, 'auction': auction})
 
             # Create the bid
-            user = request.user
-            Bid.objects.create(auction=auction, user=user, bid_amount=bid_amount)
+            users = request.user
+            Bid.objects.create(auction=auction, user=users, bid_amount=bid_amount)
 
             # After creating the bid, check if the auction has ended
             if auction.has_ended():
@@ -212,3 +212,4 @@ def determine_winner(auction):
             bid_amount=last_bid.bid_amount,
             auction=auction
         )
+        
