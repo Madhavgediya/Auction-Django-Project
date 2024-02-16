@@ -36,7 +36,7 @@ def contact(request):
 
 def category(request):
     context = {'page': 'category'}
-    category_data = Categorie.objects.all()
+    # category_data = Categorie.objects.all()
     # product_data = product_data[:3]
     # product_data = Product.objects[:3]
     category_data = Categorie.objects.all()
@@ -171,7 +171,7 @@ def bid(request, auction_id):
                 # Determine the winner and redirect to the winner.html page
                 determine_winner(auction)
                 return redirect('winner', auction_id=auction.id)
-        
+            
 
     else:
         form = BidForm()
@@ -196,6 +196,15 @@ def category_products(request, category_id):
 
 def winner(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
+
+    # Check if a winner already exists for this auction
+    winner_exists = Winner.objects.filter(auction=auction).exists()
+
+    # If no winner exists, call determine_winner function to ensure winner is determined
+    if not winner_exists:
+        determine_winner(auction)
+
+    # Get the last winner for the auction
     winner = Winner.objects.filter(auction=auction).last()
 
     context = {'auction': auction, 'winner': winner}
@@ -212,3 +221,4 @@ def determine_winner(auction):
             bid_amount=last_bid.bid_amount,
             auction=auction
         )
+        
