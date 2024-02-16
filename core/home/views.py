@@ -163,15 +163,15 @@ def bid(request, auction_id):
                     return render(request, 'home/bid.html', {'form': form, 'auction': auction})
 
             # Create the bid
-            users = request.user
-            Bid.objects.create(auction=auction, user=users, bid_amount=bid_amount)
+            user = request.user
+            Bid.objects.create(auction=auction, user=user, bid_amount=bid_amount)
 
             # After creating the bid, check if the auction has ended
             if auction.has_ended():
                 # Determine the winner and redirect to the winner.html page
                 determine_winner(auction)
                 return redirect('winner', auction_id=auction.id)
-        
+            
 
     else:
         form = BidForm()
@@ -196,6 +196,15 @@ def category_products(request, category_id):
 
 def winner(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
+
+    # Check if a winner already exists for this auction
+    winner_exists = Winner.objects.filter(auction=auction).exists()
+
+    # If no winner exists, call determine_winner function to ensure winner is determined
+    if not winner_exists:
+        determine_winner(auction)
+
+    # Get the last winner for the auction
     winner = Winner.objects.filter(auction=auction).last()
 
     context = {'auction': auction, 'winner': winner}
