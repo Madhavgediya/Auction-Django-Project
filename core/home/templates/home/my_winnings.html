@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block start %}
+<div class="container mt-4">
+    <h1>My Winnings</h1>
+    {% if user_winnings %}
+        <ul>
+            {% for winning in user_winnings reversed %}
+                <li>
+                    <strong>Auction:</strong> {{ winning.auction.product.products_name }}<br>
+                    <strong>Winning Bid Amount:</strong> {{ winning.bid_amount }}<br>
+                    <strong>Auction Image:</strong> <img src="{{ winning.auction.product.product_image.url }}" alt="{{ winning.auction.product.products_name }}" style="max-height: 100px;"><br>
+                
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No winnings yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

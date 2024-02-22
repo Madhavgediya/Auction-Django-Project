@@ -39,6 +39,8 @@ urlpatterns = [
     path('auction/<int:auction_id>/', auction_detail, name='auction_detail'),
     path('category/<int:category_id>/', category_products, name='category_products'),
     path('winner/<int:auction_id>/', winner, name='winner'),  
+    path('my_bids/', my_bids, name='my_bids'),
+    path('my_winnings/', my_winnings, name='my_winnings'),
 
 ]
 
