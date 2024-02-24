@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block start %}
+<div class="container mt-4">
+    <h1>My Bids</h1>
+    {% if user_bids %}
+        <ul>
+            {% for bid in user_bids reversed %}
+                <li>
+                    <strong>Auction:</strong> {{ bid.auction.product.products_name }}<br>
+                    <strong>Bid Amount:</strong> {{ bid.bid_amount }}<br>
+                    <strong>Auction Image:</strong> <img src="{{ bid.auction.product.product_image.url }}" alt="{{ bid.auction.product.products_name }}" style="max-height: 100px;"><br>
+                    
+                    {% if bid.auction.is_active %}
+                        <a href="{% url 'bid' auction_id=bid.auction.id %}">Bid Again</a><br>
+                    {% elif bid.auction.has_ended %}
+                        <a href="{% url 'winner' auction_id=bid.auction.id %}">View Winner</a><br>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No bids yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

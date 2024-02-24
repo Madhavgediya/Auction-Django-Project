@@ -20,12 +20,17 @@ def home(request):
     active_auctions = [auction for auction in reversed(all_auctions) if auction.is_active()][:3]
 
     # Filter the recent completed auctions
-    completed_auctions = [auction for auction in reversed(all_auctions) if not auction.is_active()]
+    completed_auctions = [auction for auction in reversed(all_auctions) if not auction.is_active()][:3]
+
+    # Fetch winner data for completed auctions and filter in reverse order
+    winners_data = Winner.objects.filter(auction__in=completed_auctions).select_related('user', 'auction__product')
+    winners_data = winners_data.order_by('-id')[:3]
 
     data = {
         'product_data': product_data,
         'active_auctions': active_auctions,
         'completed_auctions': completed_auctions,
+        'winners_data': winners_data,
     }
 
     return render(request, "home/index.html", data)
@@ -222,3 +227,18 @@ def determine_winner(auction):
             auction=auction
         )
         
+
+def my_bids(request):
+    if not request.user.is_authenticated:
+        messages.error(request, 'Please log in to view your bids.')
+        return redirect('/#loginModal')
+
+    user_bids = Bid.objects.filter(user=request.user).reverse()
+    return render(request, 'home/my_bids.html', {'user_bids': user_bids})
+
+def my_winnings(request):
+    if not request.user.is_authenticated:
+        return redirect('/#loginModal')
+
+    user_winnings = Winner.objects.filter(user=request.user)
+    return render(request, 'home/my_winnings.html', {'user_winnings': user_winnings})

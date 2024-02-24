@@ -88,8 +88,15 @@
               </button>
               <ul class="dropdown-menu bg-dark">
                 <li>
+                  <a class="nav-link" href="{% url 'my_bids' %}">My Bids</a>
+                </li>
+                <li>
+                  <a class="nav-link" href="{% url 'my_winnings' %}">My Winnings</a>
+                </li>
+                <li>
                   <a class="nav-link" href="/logout">Log Out</a>
                 </li>
+                
               </ul>
             </div>
             {% else %}
