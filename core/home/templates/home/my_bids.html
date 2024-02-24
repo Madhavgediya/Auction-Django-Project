@@ -1,26 +1,51 @@
-{% extends "base.html" %}
-
-{% block start %}
+{% extends "base.html" %} {% block start %}
 <div class="container mt-4">
-    <h1>My Bids</h1>
-    {% if user_bids %}
-        <ul>
-            {% for bid in user_bids reversed %}
-                <li>
-                    <strong>Auction:</strong> {{ bid.auction.product.products_name }}<br>
-                    <strong>Bid Amount:</strong> {{ bid.bid_amount }}<br>
-                    <strong>Auction Image:</strong> <img src="{{ bid.auction.product.product_image.url }}" alt="{{ bid.auction.product.products_name }}" style="max-height: 100px;"><br>
-                    
-                    {% if bid.auction.is_active %}
-                        <a href="{% url 'bid' auction_id=bid.auction.id %}">Bid Again</a><br>
-                    {% elif bid.auction.has_ended %}
-                        <a href="{% url 'winner' auction_id=bid.auction.id %}">View Winner</a><br>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No bids yet.</p>
-    {% endif %}
+  <h1 class="text-center">My Bids</h1>
+  {% if user_bids %}
+  <div class="table-responsive">
+    <table class="table text-center">
+      <thead>
+        <tr>
+          <th>Auction Image</th>
+          <th>Auction</th>
+          <th>Bid Amount</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for bid in user_bids reversed %}
+        <tr>
+          <td>
+            <img
+              src="{{ bid.auction.product.product_image.url }}"
+              alt="{{ bid.auction.product.products_name }}"
+              style="max-height: 100px"
+            />
+          </td>
+          <td>{{ bid.auction.product.products_name }}</td>
+          <td>{{ bid.bid_amount }}</td>
+          <td>
+            {% if bid.auction.is_active %}
+            <a
+              href="{% url 'bid' auction_id=bid.auction.id %}"
+              class="btn btn-primary"
+              >Bid Again</a
+            >
+            {% elif bid.auction.has_ended %}
+            <a
+              href="{% url 'winner' auction_id=bid.auction.id %}"
+              class="btn btn-success"
+              >View Winner</a
+            >
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-center">No bids yet.</p>
+  {% endif %}
 </div>
 {% endblock %}
