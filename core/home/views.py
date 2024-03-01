@@ -8,6 +8,8 @@ from .forms import RegistrationForm
 from django.views.generic import ListView
 from .forms import *
 from .models import *
+from django.http import JsonResponse
+
 
 def home(request):
     # Fetch all products
@@ -242,3 +244,50 @@ def my_winnings(request):
 
     user_winnings = Winner.objects.filter(user=request.user)
     return render(request, 'home/my_winnings.html', {'user_winnings': user_winnings})
+
+
+def submit_your_product(request):
+    if not request.user.is_authenticated:
+        return redirect('/#loginModal')
+
+    categories = Categorie.objects.all()
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.created_by = request.user
+            product.save()
+
+            messages.success(request, 'Your product is submitted and in review. It will be published for auction once approved by admin.')
+            return redirect('submit_your_product')
+
+    else:
+        form = ProductForm()
+
+    return render(request, 'home/submit_your_product.html', {'form': form, 'categories': categories})
+
+def my_products(request):
+    if not request.user.is_authenticated:
+        return redirect('/#loginModal')
+
+    # Fetch products submitted by the logged-in user
+    user_products = Product.objects.filter(created_by=request.user)
+
+    # Add auction and winner information to each product
+    for product in user_products:
+        try:
+            # Get the latest auction for the product
+            auction = Auction.objects.filter(product=product).latest('start_time')
+            product.auction = auction
+
+            # Check if the auction has ended
+            if auction.has_ended():
+                # Get the winner of the auction
+                winner = Winner.objects.filter(auction=auction).first()
+                product.winner = winner
+        except Auction.DoesNotExist:
+            product.auction = None
+            product.winner = None
+
+    return render(request, 'home/my_products.html', {'user_products': user_products})

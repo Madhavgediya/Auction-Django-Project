@@ -1,6 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import CustomUser
+from .models import *
+ 
 
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
@@ -24,4 +25,8 @@ class RegistrationForm(forms.ModelForm):
 
 class BidForm(forms.Form):
     bid_amount = forms.DecimalField(label='Bid Amount', max_digits=10, decimal_places=2)
- 
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['products_name', 'products_base_price', 'product_category', 'product_description', 'product_image']
