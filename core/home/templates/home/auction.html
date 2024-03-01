@@ -60,45 +60,78 @@
     <div class="container-fluid">
         <div class="row">
             {% for data in auction_data reversed %}
-            <div class="col-md-3 my-4">
-                <div class="card">
-                    <img src="../../media/{{ data.auction.product.product_image }}" class="card-img-top"
-                        style="height: 300px;" alt="Product Image" />
-                    <div class="card-body">
-                        <h5 class="card-title">{{ data.auction.product.products_name }}</h5>
-                        <p class="card-text">{{ data.auction.product.product_description }}</p>
-                        <h6 class="card-title">
-                            <i class="fa-solid fa-indian-rupee-sign"></i> {{ data.auction.product.products_base_price }}
-                        </h6>
-                        <div class="">
-                            <div class="fw-bold my-2 p-2" style="font-size: 12px; background: rgb(175, 248, 175);">
-                                Start: &nbsp; {{ data.auction.start_time }}
-                            </div>
-                            <div class="fw-bold my-2 p-2" style="font-size: 12px; background: rgb(245, 164, 164);">
-                                End: &nbsp; {{ data.auction.end_time }}
-                            </div>
-                        </div>
-                        <p class="text-center">
-                            {% if data.is_active %}
-                            {% if not request.user.is_authenticated %}
-                            <a href="/#loginModal" class="btn btn-primary w-100">Log in to Bid</a>
-                            {% else %}
-                            <a href="{{ data.auction.get_absolute_url }}" class="btn btn-primary w-100">Bid</a>
-                            {% endif %}
-                            {% else %}
-                            <div class="btn text-white text-center w-100" style="background-color: rgb(231, 96, 96);">
-                                  {% if data.auction.has_ended %}
-                                  <a href="{% url 'winner' auction_id=data.auction.id %}"> <!-- Redirect to winner page -->
-                                  <i class="fa-regular fa-circle-check"></i> &nbsp; Completed
-                                  </a>
-                               {% else %}
-                               <i class="fa-regular fa-circle-check"></i> &nbsp; Error
-                                 {% endif %}
-                               </div>
-                                {% endif %}
-                        </p>
+            <div class="col-md-4">
+              <div class="box-item">
+                <div class="flip-box">
+                  <div class="flip-box-front text-center">
+                    <p class="text-center">
+                      {% if data.is_active %}
+                      {% if not request.user.is_authenticated %}
+                      <a href="/#loginModal" class="btn btn-primary w-100">Log in to Bid</a>
+                      {% else %}
+                      <a href="{{ data.auction.get_absolute_url }}" class="btn btn-primary w-100 text-decoration-none text-white fw-bold fs-4">Bid</a>
+                      {% endif %}
+                      {% else %}
+                      <div class="btn text-white text-center w-100" style="background-color: rgb(231, 96, 96);">
+                            {% if data.auction.has_ended %}
+                            <a href="{% url 'winner' auction_id=data.auction.id %}" class="text-decoration-none text-white fw-bold fs-4"> <!-- Redirect to winner page -->
+                            <i class="fa-regular fa-circle-check"></i> &nbsp; Completed
+                            </a>
+                         {% else %}
+                         <i class="fa-regular fa-circle-check"></i> &nbsp; Error
+                           {% endif %}
+                         </div>
+                          {% endif %}
+                  </p>
+                    <div class="inner color-white">
+                      <img
+                        src="../../media/{{ data.auction.product.product_image }}"
+                        alt=""
+                        class="flip-box-img"
+                        style="width: 250px; height: 250px"
+                      />
+                      <h3 class="flip-box-header">
+                        {{ data.auction.product.products_name }}
+                      </h3>
                     </div>
+                  </div>
+                  <div class="flip-box-back text-center">
+                    <div class="inner color-white">
+                      <div class="flip-box-header fs-3">
+                        {{ data.auction.product.products_name }}
+                      </div>
+                      <p class="card-text">{{ data.auction.product.product_description }}</p>
+                      <div class="">
+                        <div class="fw-bold my-2 p-2" style="font-size: 12px; background: rgb(3, 112, 3);">
+                            Start: &nbsp; {{ data.auction.start_time }}
+                        </div>
+                        <div class="fw-bold my-2 p-2" style="font-size: 12px; background: rgb(108, 21, 21);">
+                            End: &nbsp; {{ data.auction.end_time }}
+                        </div>
+                    </div>
+                    <p class="text-center">
+                        {% if data.is_active %}
+                        {% if not request.user.is_authenticated %}
+                        <a href="/#loginModal" class="btn btn-primary w-100 text-decoration-none text-white fw-bold fs-4">Log in to Bid</a>
+                        {% else %}
+                        <a href="{{ data.auction.get_absolute_url }}" class="btn btn-primary w-100 text-decoration-none text-white fw-bold fs-4">Bid</a>
+                        {% endif %}
+                        {% else %}
+                        <div class="btn text-white text-center w-100" style="background-color: rgb(231, 96, 96);">
+                              {% if data.auction.has_ended %}
+                              <a href="{% url 'winner' auction_id=data.auction.id %}" class="text-decoration-none text-white fw-bold fs-4"> <!-- Redirect to winner page -->
+                              <i class="fa-regular fa-circle-check"></i> &nbsp; Completed
+                              </a>
+                           {% else %}
+                           <i class="fa-regular fa-circle-check"></i> &nbsp; Error
+                             {% endif %}
+                           </div>
+                            {% endif %}
+                    </p>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
             {% endfor %}
         </div>
