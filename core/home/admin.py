@@ -5,7 +5,7 @@ from .models import *
 
 
 admin.site.register(Categorie)
-admin.site.register(Product)
+# admin.site.register(Product)
 admin.site.register(Winner)
 
 @admin.register(Auction)
@@ -18,4 +18,12 @@ class AuctionAdmin(admin.ModelAdmin):
         obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
-         
+
+class ProductAdmin(admin.ModelAdmin):
+    def save_model(self, request, obj, form, change):
+        # Set the created_by field to the currently logged-in user
+        if not obj.created_by and request.user.is_authenticated:
+            obj.created_by = request.user
+        super().save_model(request, obj, form, change)
+
+admin.site.register(Product, ProductAdmin)

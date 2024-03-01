@@ -41,7 +41,10 @@ urlpatterns = [
     path('winner/<int:auction_id>/', winner, name='winner'),  
     path('my_bids/', my_bids, name='my_bids'),
     path('my_winnings/', my_winnings, name='my_winnings'),
-
+    path('submit_your_product/', submit_your_product, name='submit_your_product'),
+    path('my_products/', my_products, name='my_products'),
+    
+    
 ]
 
 

@@ -139,3 +139,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_COOKIE_AGE = 900
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Email 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = 'cfaee89ca1d0c1'
+EMAIL_HOST_PASSWORD = '2b1b692b648522'
+EMAIL_PORT = '2525'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
