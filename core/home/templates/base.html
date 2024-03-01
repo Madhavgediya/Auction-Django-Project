@@ -43,6 +43,7 @@
     <link href="css/style.css" rel="stylesheet" />
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/cardstlye.css' %}" />
     <link rel="stylesheet" href="{% static 'css/tiny-slider.css' %}" />
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
   </head>
@@ -92,6 +93,12 @@
                 </li>
                 <li>
                   <a class="nav-link" href="{% url 'my_winnings' %}">My Winnings</a>
+                </li>
+                <li>
+                  <a class="nav-link" href="{% url 'my_products' %}">My Products</a>
+              </li>
+                <li>
+                  <a class="nav-link" href="{% url 'submit_your_product' %}">Sell Item</a>
                 </li>
                 <li>
                   <a class="nav-link" href="/logout">Log Out</a>

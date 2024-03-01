@@ -19,8 +19,17 @@ class Product(models.Model):
     product_category = models.ForeignKey(Categorie, on_delete=models.SET_NULL, null=True, blank=True) 
     product_description = models.CharField(max_length=255, default='No Description Available')
     product_image = models.ImageField(upload_to='', null=True, blank=True)  # Add this line for the image field
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_products', null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        # Set the created_by field to the currently logged-in user
+        if not self.created_by_id and 'user' in kwargs:
+            self.created_by = kwargs['user']
+        super(Product, self).save(*args, **kwargs)
+    
     def __str__(self):
         return self.products_name 
+    
 
 
 class CustomUser(models.Model):
@@ -72,6 +81,3 @@ class Winner(models.Model):
         return reverse('winner', args=[str(self.auction.id)])
     
 
-
-
-    

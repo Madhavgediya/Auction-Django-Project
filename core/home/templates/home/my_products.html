@@ -1,0 +1,58 @@
+{% extends "base.html" %} {% block start %}
+<div class="container mt-4">
+  <h1>My Products</h1>
+  <div class="row">
+    {% if user_products %} {% for product in user_products %}
+    <div class="col-md-3 position-relative">
+      <div class="card mb-4" style="width: 300px; min-height: 500px">
+        {% if product.product_image %}
+        <img
+          src="{{ product.product_image.url }}"
+          alt="{{ product.products_name }}"
+          class="card-img-top img-fluid"
+          style="width: 300px; height: 300px"
+        />
+        {% else %}
+        <div class="text-center py-3">No image available</div>
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ product.products_name }}</h5>
+          <p class="card-text">
+            <strong>Base Price:</strong> {{ product.products_base_price }}
+          </p>
+        </div>
+        {% if product.auction %} {% if product.auction.is_active %}
+        <a
+          href="{% url 'auction_detail' auction_id=product.auction.id %}"
+          class="btn btn-success"
+          >View Auction</a
+        >
+        {% else %} {% if product.winner %}
+        <p class="card-text">
+          <strong>Sale Price:</strong> {{ product.winner.bid_amount }}
+        </p>
+
+        <div class="w-100" style="bottom: 10px">
+          <a
+            href="{% url 'winner' auction_id=product.auction.id %}"
+            class="btn btn-info w-100"
+            >View Winner</a
+          >
+        </div>
+
+        {% else %}
+        <button class="btn btn-secondary" disabled>In Review</button>
+        {% endif %} {% endif %} {% else %}
+        <button class="btn btn-secondary w-100" disabled>In Review</button>
+        {% endif %}
+        <!-- Add more fields as needed -->
+      </div>
+    </div>
+    {% endfor %} {% else %}
+    <div class="col">
+      <p>No products yet.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
