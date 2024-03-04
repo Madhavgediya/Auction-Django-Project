@@ -36,24 +36,25 @@
         <div class="block">
           <div class="row justify-content-center">
             <div class="col-md-8 col-lg-8 p-1 border border-5 border-success w-auto" style="border-radius: 5% 20%;">
-              <form class="p-3 border border-5 border-success w-auto" style="border-radius: 5% 20%;">
+              <form class="p-3 border border-5 border-success w-auto" style="border-radius: 5% 20%;" method="post">
+                {% csrf_token %}
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="text-black" for="fname">First name</label>
-                      <input type="text" class="form-control" id="fname" name="first_name">
+                      <label class="text-black" for="fname">Name</label>
+                      <input type="text" class="form-control" id="fname" name="name">
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="text-black" for="lname">Last name</label>
-                      <input type="text" class="form-control" name="last_name" id="lname">
+                      <label class="text-black" for="email">Email</label>
+                      <input type="email" class="form-control" name="email" id="email">
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="text-black" for="email">Email address</label>
-                  <input type="email" name="email" class="form-control" id="email">
+                  <label class="text-black" for="subject">Subject</label>
+                  <input type="text" name="subject" class="form-control" id="subject">
                 </div>
 
                 <div class="form-group mb-5">

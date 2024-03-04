@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import  logout as auth_logout
-from .forms import RegistrationForm
 from django.views.generic import ListView
 from .forms import *
 from .models import *
@@ -41,10 +40,6 @@ def home(request):
     }
 
     return render(request, "home/index.html", data)
-
-def contact(request):
-    context = {'page': 'Contact'}
-    return render(request, "home/contact.html", context) 
 
 def category(request):
     context = {'page': 'category'}
@@ -113,6 +108,19 @@ def register(request):
         myuser.save()
         messages.success(request, "Success")
         return redirect('home')
+    
+def contact(request):
+    if request.method == 'POST':
+        form = ContectForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ContectForm()
+
+    return render(request, 'home/contact.html', {'form': form})
+
+
 
 def my_login_view(request):
     if request.method == "POST":

@@ -8,6 +8,8 @@ admin.site.register(Categorie)
 # admin.site.register(Product)
 admin.site.register(Winner)
 
+admin.site.register(ContectUs)
+
 @admin.register(Auction)
 class AuctionAdmin(admin.ModelAdmin):
     list_display = ['product', 'start_time', 'end_time', 'created_by']
