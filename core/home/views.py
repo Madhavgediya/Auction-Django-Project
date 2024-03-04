@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render , get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse , HttpResponseForbidden
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import  logout as auth_logout
 from .forms import RegistrationForm
@@ -12,6 +13,9 @@ from django.http import JsonResponse
 
 
 def home(request):
+    user_profile = None
+    if request.user.is_authenticated and not isinstance(request.user, AnonymousUser):
+        user_profile = UserProfile.objects.filter(user=request.user).first()
     # Fetch all products
     product_data = Product.objects.all()
 
@@ -29,6 +33,7 @@ def home(request):
     winners_data = winners_data.order_by('-id')[:3]
 
     data = {
+        'user_profile': user_profile,  # Added this line to include user_profile in the context
         'product_data': product_data,
         'active_auctions': active_auctions,
         'completed_auctions': completed_auctions,
@@ -291,3 +296,48 @@ def my_products(request):
             product.winner = None
 
     return render(request, 'home/my_products.html', {'user_products': user_products})
+
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    # Check if the product has an associated auction
+    if Auction.objects.filter(product=product).exists():
+        messages.warning(request, 'Cannot delete a product with an associated auction.')
+        return HttpResponseForbidden("You cannot delete a product with an associated auction.")
+    else:
+        product.delete()
+        messages.success(request, 'Product deleted successfully.')
+
+    return redirect('my_products')
+
+def edit_profile(request):
+    if not request.user.is_authenticated:
+        return redirect('/#loginModal')
+
+    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = UserProfileForm(instance=user_profile)
+
+    return render(request, 'home/edit_profile.html', {'form': form})
+
+def complete_profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST)
+        if form.is_valid():
+            # Save the form and associate it with the current user
+            user_profile = form.save(commit=False)
+            user_profile.user = request.user
+            user_profile.save()
+
+            # Redirect to the home page
+            return redirect('home')
+    else:
+        form = UserProfileForm()
+
+    return render(request, 'home/complete_profile.html', {'form': form})
