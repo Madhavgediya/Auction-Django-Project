@@ -30,3 +30,8 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['products_name', 'products_base_price', 'product_category', 'product_description', 'product_image']
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['address', 'city', 'state', 'postal_code', 'country']

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block start %}
+    <div class="container mt-4">
+        <h1>Complete Profile</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Complete Profile</button>
+        </form>
+    </div>
+{% endblock %}

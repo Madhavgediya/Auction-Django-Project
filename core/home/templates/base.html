@@ -88,6 +88,15 @@
                 Welcome {{request.user}}
               </button>
               <ul class="dropdown-menu bg-dark">
+            {% if user_profile %}
+                <li>
+                    <a class="nav-link" href="{% url 'edit_profile' %}">Edit Profile</a>
+                </li>
+            {% else %}
+                <li>
+                    <a class="nav-link" href="{% url 'complete_profile' %}">Complete Profile</a>
+                </li>
+            {% endif %}
                 <li>
                   <a class="nav-link" href="{% url 'my_bids' %}">My Bids</a>
                 </li>

@@ -43,6 +43,9 @@ urlpatterns = [
     path('my_winnings/', my_winnings, name='my_winnings'),
     path('submit_your_product/', submit_your_product, name='submit_your_product'),
     path('my_products/', my_products, name='my_products'),
+    path('delete_product/<int:product_id>/', delete_product, name='delete_product'),
+    path('edit_profile/', edit_profile, name='edit_profile'),
+    path('complete_profile/', complete_profile, name='complete_profile'),
     
     
 ]
