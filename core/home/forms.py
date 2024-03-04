@@ -21,6 +21,10 @@ class RegistrationForm(forms.ModelForm):
 
         return cleaned_data
 
+class ContectForm(forms.ModelForm):
+    class Meta:
+        model = ContectUs
+        fields = ['name', 'email', 'subject', 'message']
 
 
 class BidForm(forms.Form):

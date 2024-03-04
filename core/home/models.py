@@ -91,3 +91,13 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username    
 
+# Demo Table
+class ContectUs(models.Model):
+    name = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(unique=True)
+    subject = models.CharField(max_length=150)
+    message = models.CharField(max_length=255)  # Note: In a real-world scenario, you'd use a more secure way to store passwords
+
+    def __str__(self):
+        return self.name
+

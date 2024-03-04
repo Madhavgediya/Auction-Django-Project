@@ -108,33 +108,34 @@
       <div class="row">
         {% for winner_data in winners_data %}
         <div class="col-md-4">
-          <div class="card">
-            <img
-              src="../../media/{{ winner_data.auction.product.product_image }}"
-              class="card-img-top"
-              style="height: 300px"
-              alt="..."
-            />
-            <div class="card-body">
-              <h5 class="card-title">
-                {{ winner_data.auction.product.products_name }}
-              </h5>
-              <h6 class="card-title">
-                <i class="fa-solid fa-indian-rupee-sign"></i>
-                {{ winner_data.bid_amount }}
-              </h6>
-              <!-- <p class="card-text">
-                {{
-                winner_data.auction.product.product_description|truncatechars:70
-                }}..
-                <a href="#" class="readmore">Read More</a>
-              </p> -->
-              <a href="#" class="btn btn-primary"
-                >{{ winner_data.user.username }}</a
-              >
+          <div class="box-item">
+            <div class="flip-box">
+              <div class="flip-box-front text-center">
+                <div class="inner color-white">
+                  <img
+                    src="../../media/{{ winner_data.auction.product.product_image }}"
+                    alt=""
+                    class="flip-box-img"
+                    style="width: 250px; height: 250px"
+                  />
+                  <h3 class="flip-box-header">
+                    {{ winner_data.auction.product.products_name }}
+                  </h3>
+                </div>
+              </div>
+              <div class="flip-box-back text-center">
+                <div class="inner color-white">
+                  <h3 class="flip-box-header">
+                    {{ auction.product.products_name }}
+                  </h3>
+                  <button class="btn fs-3 text-white">Winning Price</button>
+                  <button class="flip-box-button"> {{ winner_data.bid_amount }}</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+       
         {% endfor %}
       </div>
     </div>
