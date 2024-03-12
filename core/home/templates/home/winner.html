@@ -1,0 +1,35 @@
+{% extends "base.html" %} {% block start %}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title text-center">
+            Winner for {{ auction.product.products_name }}
+          </h1>
+          {% if winner %}
+          <div class="text-center">
+            <img
+              src="{{ auction.product.product_image.url }}"
+              alt="{{ auction.product.products_name }}"
+              class="img-fluid mb-3"
+              style="max-height: 200px"
+            />
+          </div>
+          <div class="card-text">
+            <p class="mb-1">
+              <strong>Winner:</strong> {{ winner.user.username }}
+            </p>
+            <p class="mb-1">
+              <strong>Winning Bid Amount:</strong> {{ winner.bid_amount }}
+            </p>
+          </div>
+          {% else %}
+          <p class="card-text text-center">No winner yet.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

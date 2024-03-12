@@ -1,0 +1,150 @@
+{% extends "base.html" %} {% block start %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/tiny-slider.css' %}" />
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+
+<body>
+  <!-- Start Hero Section -->
+  <div class="hero">
+    <div class="container">
+      <div class="text-center p-3">
+        <h1>WelCome To Auction PlatForm</h1>
+      </div>
+    </div>
+  </div>
+  <!-- End Hero Section -->
+
+  <!-- Start Product Section -->
+  <div class="product-section">
+    <div class="container">
+      <div>
+        <h2 class="section-title">Live Auction</h2>
+      </div>
+      <!-- Display the last four active auctions -->
+      <div class="row">
+        {% for auction in active_auctions %}
+        <div class="col-md-4">
+          <div class="card">
+            <img
+              src="../../media/{{ auction.product.product_image }}"
+              class="card-img-top"
+              style="height: 300px"
+              alt="..."
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ auction.product.products_name }}</h5>
+              <h6 class="card-title">
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+                {{ auction.product.products_base_price }}
+              </h6>
+              <p class="card-text">
+                {{ auction.product.product_description|truncatechars:70 }}..
+                <a href="{{ auction.get_absolute_url }}" class="readmore"
+                  >Read More</a
+                >
+              </p>
+
+              <a href="{{ auction.get_absolute_url }}" class="btn btn-primary"
+                >Bid Now</a
+              >
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <!-- End displaying active auctions -->
+    </div>
+  </div>
+
+  <!-- End Product Section -->
+
+  <!-- Start Product Section -->
+  <div class="product-section">
+    <div class="container">
+      <div>
+        <h2 class="section-title">Recent Completed Auctions</h2>
+      </div>
+      <div class="row">
+        {% for auction in completed_auctions %}
+        <div class="col-md-4">
+          <div class="box-item">
+            <div class="flip-box">
+              <div class="flip-box-front text-center">
+                <div class="inner color-white">
+                  <img
+                    src="../../media/{{ auction.product.product_image }}"
+                    alt=""
+                    class="flip-box-img"
+                    style="width: 250px; height: 250px"
+                  />
+                  <h3 class="flip-box-header">
+                    {{ auction.product.products_name }}
+                  </h3>
+                </div>
+              </div>
+              <div class="flip-box-back text-center">
+                <div class="inner color-white">
+                  <h3 class="flip-box-header">
+                    {{ auction.product.products_name }}
+                  </h3>
+                  <button class="btn fs-3 text-white">Base Price</button>
+                  <button class="flip-box-button"> {{ auction.product.products_base_price }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <!-- End Product Section -->
+  <!-- Start Product Section -->
+  <div class="product-section">
+    <div class="container">
+      <div>
+        <h2 class="section-title">Recent Winners</h2>
+      </div>
+      <div class="row">
+        {% for winner_data in winners_data %}
+        <div class="col-md-4">
+          <div class="box-item">
+            <div class="flip-box">
+              <div class="flip-box-front text-center">
+                <div class="inner color-white">
+                  <img
+                    src="../../media/{{ winner_data.auction.product.product_image }}"
+                    alt=""
+                    class="flip-box-img"
+                    style="width: 250px; height: 250px"
+                  />
+                  <h3 class="flip-box-header">
+                    {{ winner_data.auction.product.products_name }}
+                  </h3>
+                </div>
+              </div>
+              <div class="flip-box-back text-center">
+                <div class="inner color-white">
+                  <h3 class="flip-box-header">
+                    {{ auction.product.products_name }}
+                  </h3>
+                  <button class="btn fs-3 text-white">Winning Price</button>
+                  <button class="flip-box-button"> {{ winner_data.bid_amount }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <!-- End Product Section -->
+
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/tiny-slider.js"></script>
+  <script src="js/custom.js"></script>
+</body>
+
+{% endblock %}
