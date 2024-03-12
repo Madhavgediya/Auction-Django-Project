@@ -43,9 +43,6 @@ def home(request):
 
 def category(request):
     context = {'page': 'category'}
-    # category_data = Categorie.objects.all()
-    # product_data = product_data[:3]
-    # product_data = Product.objects[:3]
     category_data = Categorie.objects.all()
     data = {
             'category_data':category_data,
@@ -56,15 +53,8 @@ def about(request):
     about = {'page': 'About'}
     return render(request, "home/about.html", about) 
 
-# def auction(request):
-#     auctions = Auction.objects.all()
-#     template_name = 'home/auction.html'
-#     context = {'auctions': auctions}
-#     return render(request, template_name, context)
 def auctions(request):
     auctions = Auction.objects.all()
-
-    # Determine the active status for each auction
     auction_data = []
     for auction in auctions:
         auction_data.append({
@@ -75,14 +65,6 @@ def auctions(request):
     template_name = 'home/auction.html'
     context = {'auction_data': auction_data}
     return render(request, template_name, context)
-   
-#    Products Data Prototype
-    # auction = {'page': 'Auction'}
-    # product_data = Product.objects.all()
-    # data = {
-    #         'product_data':product_data
-    #     }
-    # return render(request, "home/auction.html", data) 
 
 def user(request):
     user = {'page': 'user'}
@@ -150,26 +132,17 @@ def auction_list_view(request):
     context = {'auctions': auctions}
     return render(request, template_name, context)
 
-# class AuctionListView(ListView):
-#     model = Auction
-#     template_name = 'home/auction_list.html'
-#     context_object_name = 'auctions'
-
 def bid(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
 
-    # Check if the user is authenticated
     if not request.user.is_authenticated:
-        # Redirect the user to the login page or display an authentication message
-        # Customize this based on your project's requirements
-        return redirect('/#loginModal')  # Adjust 'login' to the actual login URL in your project
+         return redirect('/#loginModal')  
 
     if request.method == 'POST':
         form = BidForm(request.POST)
         if form.is_valid():
             bid_amount = form.cleaned_data['bid_amount']
 
-            # Check bid constraints
             if auction.bids.exists():
                 previous_bid = auction.bids.latest('bid_time')
                 if bid_amount <= previous_bid.bid_amount:
@@ -177,18 +150,14 @@ def bid(request, auction_id):
                     form.add_error('bid_amount', f'Bid must be higher than {min_bid_amount}.')
                     return render(request, 'home/bid.html', {'form': form, 'auction': auction})
             else:
-                # For the first bid, check if bid_amount is greater than the base price
-                if bid_amount <= auction.product.products_base_price:
+                 if bid_amount <= auction.product.products_base_price:
                     form.add_error('bid_amount', f'Bid must be higher than the base price ({auction.product.products_base_price}).')
                     return render(request, 'home/bid.html', {'form': form, 'auction': auction})
 
-            # Create the bid
             user = request.user
             Bid.objects.create(auction=auction, user=user, bid_amount=bid_amount)
 
-            # After creating the bid, check if the auction has ended
             if auction.has_ended():
-                # Determine the winner and redirect to the winner.html page
                 determine_winner(auction)
                 return redirect('winner', auction_id=auction.id)
             
@@ -284,19 +253,14 @@ def my_products(request):
     if not request.user.is_authenticated:
         return redirect('/#loginModal')
 
-    # Fetch products submitted by the logged-in user
     user_products = Product.objects.filter(created_by=request.user)
 
-    # Add auction and winner information to each product
     for product in user_products:
         try:
-            # Get the latest auction for the product
             auction = Auction.objects.filter(product=product).latest('start_time')
             product.auction = auction
 
-            # Check if the auction has ended
             if auction.has_ended():
-                # Get the winner of the auction
                 winner = Winner.objects.filter(auction=auction).first()
                 product.winner = winner
         except Auction.DoesNotExist:
@@ -349,3 +313,17 @@ def complete_profile(request):
         form = UserProfileForm()
 
     return render(request, 'home/complete_profile.html', {'form': form})
+
+
+# task Given by ripal sir
+def info(request):
+    if request.method == 'POST':
+        form = InfoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/info')
+    else:
+        form = InfoForm()
+
+    return render(request, 'home/info.html', {'form': form})
+

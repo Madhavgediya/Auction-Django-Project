@@ -1,0 +1,16 @@
+<form method="post">
+  {% csrf_token %}
+  <div style="display: block;">
+    <div style="margin: 30px;">
+      <label class="text-black" for="fname">Name</label>
+      <input type="text" id="fname" name="name"  pattern="[a-zA-Z]*" required  />
+    </div>
+    <div style="margin: 30px;">
+      <label class="text-black" for="city">City</label>
+      <input type="text" name="city" id="city"  pattern="[a-zA-Z]*" required  />
+    </div>
+  </div>
+  <div style="margin: 30px;">
+    <button type="submit">Send Message</button>
+  </div>
+</form>

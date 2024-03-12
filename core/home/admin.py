@@ -9,6 +9,7 @@ admin.site.register(Categorie)
 admin.site.register(Winner)
 
 admin.site.register(ContectUs)
+admin.site.register(Info)
 
 @admin.register(Auction)
 class AuctionAdmin(admin.ModelAdmin):
