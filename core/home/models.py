@@ -101,3 +101,11 @@ class ContectUs(models.Model):
     def __str__(self):
         return self.name
 
+class Info(models.Model):
+    name = models.CharField(max_length=150, unique=True)
+    city = models.CharField(max_length=150)
+    
+    def __str__(self):
+        return self.name
+
+
